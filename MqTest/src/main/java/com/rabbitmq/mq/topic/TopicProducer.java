@@ -27,7 +27,7 @@ public class TopicProducer {
         for (int i = 0; i < 20; i++) {
             String message = "Topic N mq " + i;
             //第一个参数为exchangeName,第二个是topic key，第三个是发送内容
-            amqpTemplate.convertAndSend(EXCHANGE_NAME, "top2.queue.msg", message);
+            amqpTemplate.convertAndSend(EXCHANGE_NAME, "F.C.E", message);
         }
         log.warn("Topic-Model send success");
     }
@@ -39,15 +39,17 @@ public class TopicProducer {
         for (int i = 20; i < 50; i++) {
             String message = "Topic1 mq " + i;
             //第一个参数为exchangeName,第二个是topic key，第三个是发送内容
-            amqpTemplate.convertAndSend(EXCHANGE_NAME, "top2.queue", message);
+            amqpTemplate.convertAndSend(EXCHANGE_NAME, "A.F", message);
         }
-        log.warn("Route-Model send success");
+        log.warn("Topic-Model send success");
     }
 
 
-    private static final String QUEUE_NAME = "MQ.queue.topic.one";
-    private static final String QUEUE_NAME_2 = "MQ.queue.topic.two";
-    private static final String EXCHANGE_NAME = "MQ.topic";
+    private static final String QUEUE_NAME = "mq.queue.topic.one";
+    private static final String QUEUE_NAME_2 = "mq.queue.topic.two";
+    private static final String EXCHANGE_NAME = "mq.topic";
+    private static final String ROUTING_KEY_1 = "*.C.*";
+    private static final String ROUTING_KEY_2 = "A.*.*";
 
     /**
      * 创建QUEUE
@@ -81,7 +83,7 @@ public class TopicProducer {
      */
     @Bean
     public Binding bindingTopicExchangeWithQueue() {
-        return BindingBuilder.bind(topicQueueOne()).to(topicExchange()).with("top2.#");
+        return BindingBuilder.bind(topicQueueOne()).to(topicExchange()).with(ROUTING_KEY_1);
     }
 
     /**
@@ -91,7 +93,7 @@ public class TopicProducer {
      */
     @Bean
     public Binding bindingTopicExchangeWithQueue2() {
-        return BindingBuilder.bind(topicQueueTwo()).to(topicExchange()).with("top2.queue.#");
+        return BindingBuilder.bind(topicQueueTwo()).to(topicExchange()).with(ROUTING_KEY_2);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.rabbitmq.mq.route;
+package com.rabbitmq.mq.direct;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.*;
@@ -7,14 +7,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 /**
- * @Description: Routing 模式
+ * @Description: direct 模式
  * @Author Jason
  * @Date 2019/08/13
  * @Version 1.0
  */
 @Component
 @Slf4j
-public class RouteProducer {
+public class DirectProducer {
 
     @Autowired
     private AmqpTemplate amqpTemplate;
@@ -23,19 +23,19 @@ public class RouteProducer {
 
     public void send() {
         for (int i = 0; i < 10; i++) {
-            String message = "Route mq " + i;
+            String message = "Direct mq " + i;
             //第一个参数为exchangeName,第二个是router keyname，第三个是发送内容
             amqpTemplate.convertAndSend(EXCHANGE_NAME, routeKeys[0], message);
         }
-        log.warn("Route-Model send success");
+        log.warn("Direct-Model send success");
     }
 
 
-    private static final String QUEUE_NAME = "MQ.queue.route.one";
-    private static final String QUEUE_NAME_2 = "MQ.queue.route.two";
-    private static final String EXCHANGE_NAME = "MQ.ex.direct";
-    private static final String ROUTE_KEY = "MQ.route.one";
-    private static final String ROUTE_KEY_2 = "MQ.route.two";
+    private static final String QUEUE_NAME = "mq.queue.direct.one";
+    private static final String QUEUE_NAME_2 = "mq.queue.direct.two";
+    private static final String EXCHANGE_NAME = "mq.exchange.direct";
+    private static final String ROUTE_KEY = "mq.direct.booking";
+    private static final String ROUTE_KEY_2 = "mq.direct.create";
 
     /**
      * 创建QUEUE

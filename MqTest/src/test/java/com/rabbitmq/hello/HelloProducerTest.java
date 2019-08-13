@@ -1,8 +1,9 @@
 package com.rabbitmq.hello;
 import com.rabbitmq.MQApplication;
+import com.rabbitmq.mq.header.HeaderProducer;
 import com.rabbitmq.mq.hello.HelloProducer;
-import com.rabbitmq.mq.publish.PublishProducer;
-import com.rabbitmq.mq.route.RouteProducer;
+import com.rabbitmq.mq.fanout.PublishProducer;
+import com.rabbitmq.mq.direct.DirectProducer;
 import com.rabbitmq.mq.topic.TopicProducer;
 import com.rabbitmq.mq.work.WorkProducer;
 import com.rabbitmq.service.OrderService;
@@ -40,10 +41,10 @@ public class HelloProducerTest {
     }
 
     @Autowired
-    private RouteProducer routeProducer;
+    private DirectProducer directProducer;
     @Test
     public void routeSend() throws Exception {
-        routeProducer.send();
+        directProducer.send();
         Thread.sleep(10000);
     }
 
@@ -53,7 +54,19 @@ public class HelloProducerTest {
     public void topicSend() throws Exception {
         topicProducer.sendTopic1();
         topicProducer.sendTopicN();
+        Thread.sleep(10000);
     }
+
+    @Autowired
+    private HeaderProducer headerProducer;
+    @Test
+    public void headerSend() throws Exception {
+        headerProducer.send_match_no();
+        headerProducer.send_match_all();
+        headerProducer.send_match_any();
+        Thread.sleep(10000);
+    }
+
 
     @Autowired
     private OrderService orderService;

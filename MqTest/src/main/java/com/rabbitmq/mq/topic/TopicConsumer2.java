@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class TopicConsumer2 {
 
-    private static final String QUEUE_NAME_2 = "MQ.queue.topic.two";
+    private static final String QUEUE_NAME_2 = "mq.queue.topic.two";
 
     @RabbitListener(queues = QUEUE_NAME_2)
     public void consume(Message message) {
